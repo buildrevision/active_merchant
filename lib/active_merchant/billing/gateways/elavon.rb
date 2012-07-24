@@ -30,7 +30,7 @@ module ActiveMerchant #:nodoc:
     #   puts response.authorization # Retrieve the unique transaction ID returned by Elavon
     #
     class ElavonGateway < ViaklixGateway
-      self.test_url = 'https://demo.myvirtualmerchant.com/VirtualMerchantDemo/process.do'
+      self.test_url = 'https://www.myvirtualmerchant.com/VirtualMerchant/process.do'
       self.live_url = 'https://www.myvirtualmerchant.com/VirtualMerchant/process.do'
 
       self.display_name = 'Elavon MyVirtualMerchant'
@@ -83,6 +83,10 @@ module ActiveMerchant #:nodoc:
       end
       
       private
+      def add_test_mode(form, options)
+        form[:test_mode] = 'TRUE' if options[:test_mode] || ActiveMerchant::Billing::Base.mode == :test
+      end
+
       def add_reference(form, authorization)
         form[:approval_code] = authorization
       end
@@ -134,4 +138,3 @@ module ActiveMerchant #:nodoc:
     end
   end
 end
-
